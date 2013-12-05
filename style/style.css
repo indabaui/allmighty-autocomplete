@@ -14,6 +14,7 @@
 
 a{
 	text-decoration: none;
+  font-weight: bold;
 	color: #3b5;
   transition: 0.1s all ease-in-out;
 }
@@ -163,6 +164,7 @@ body{
   display: inline-block;
   padding: 2em;
   width: 30em;
+  padding-bottom: 5em;
 }
 
 header{
