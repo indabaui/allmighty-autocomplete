@@ -1,0 +1,13 @@
+{
+  "name": "allmighty-autocomplete",
+  "repo": "indabaui/allmighty-autocomplete",
+  "description": "angular js autocomplete directive",
+  "version": "0.0.1",
+  "keywords": ["autocomplete", "typeahead"],
+  "dependencies": {
+  },
+  "license": "MIT",
+  "scripts": [
+    "index.js"
+  ]
+}
