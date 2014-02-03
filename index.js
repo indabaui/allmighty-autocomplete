@@ -1,8 +1,7 @@
 var app = angular.module('ngAutocomplete', []);
 
 app.directive('autocomplete', function($compile, $timeout) {
-  var index = -1, 
-      $input,
+  var index = -1,
       ulTemplate = '<ul class="autocomplete-dropdown" ng-show="dropdown">' +
                     '<li class="suggestion" ng-repeat="suggestion in getSuggestions() | filter:searchFilter" '+
                       'index="{{$index}}"' + 
@@ -40,7 +39,7 @@ app.directive('autocomplete', function($compile, $timeout) {
       attrMap[name] = attributes[i].nodeValue;
     }
 
-    $input = $('<input ng-model="inputValue" type="'+$scope.type+'" ng-change="onChange()"/>');
+    var $input = $('<input ng-model="inputValue" type="'+$scope.type+'" ng-change="onChange()"/>');
     $input.attr(attrMap);
     $element
     .removeAttr(Object.keys(attrMap).join(' '))
@@ -51,7 +50,7 @@ app.directive('autocomplete', function($compile, $timeout) {
       $scope.model = $scope.inputValue;
       $scope.searchFilter = $scope.inputValue;
       $scope.selectedIndex = 0;
-      $scope.dropdown = $scope.searchFilter === "" ? false : true;
+      $scope.dropdown = ($scope.searchFilter === undefined || $scope.searchFilter === "") ? false : true;
     };
       
     $scope.changeIndex = function(index) {
