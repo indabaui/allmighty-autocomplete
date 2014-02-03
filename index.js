@@ -18,26 +18,37 @@ app.directive('autocomplete', function($compile, $timeout) {
     restrict: 'E',
     replace: true,
     transclude: true,
-    template: '<div class="autocomplete"></div>',
-    controller: ['$scope', '$element', '$transclude', controller], 
+    template: '<div></div>',
+    controller: ['$scope', '$element', controller], 
+    scope: {
+        model: '=',
+        data: '=',
+        type: '@'
+    },
     link: link,
   };
 
-  function controller($scope, $element, $transclude) {
-
+  function controller($scope, $element) {
     $scope.dropdown = false;
     $scope.selectedIndex = -1;
+    
+    var attributes = $element[0].attributes, attrMap = {}, name;
       
-    $transclude(function($clone) {
-      $clone.attr('ng-change', 'onChange()');
-      $element
-      .append($compile($clone)($scope))
-      .append($compile(ulTemplate)($scope));
-      $input = $element.find('input');
-    });
+    for (var i=0;i<attributes.length;i++) {
+      name = attributes[i].name;
+      if (name === "type" || name === "model") continue;
+      attrMap[name] = attributes[i].nodeValue;
+    }
+
+    $input = $('<input ng-model="inputValue" type="'+$scope.type+'" ng-change="onChange()"/>');
+    $input.attr(attrMap);
+    $element
+    .append($compile($input)($scope))
+    .append($compile(ulTemplate)($scope));
   
     $scope.onChange = function() {
-      $scope.searchFilter = $input.val();
+      $scope.model = $scope.inputValue;
+      $scope.searchFilter = $scope.inputValue;
       $scope.selectedIndex = 0;
       $scope.dropdown = $scope.searchFilter === "" ? false : true;
     };
@@ -50,7 +61,7 @@ app.directive('autocomplete', function($compile, $timeout) {
     
     $scope.setIndex = function(i) {
       $scope.$apply(function() {
-        $scope.selectedIndex = parseInt(i);
+        $scope.selectedIndex = parseInt(i, 10);
       });
       $input.focus();
     };
@@ -59,6 +70,7 @@ app.directive('autocomplete', function($compile, $timeout) {
       $scope.searchFilter = suggestion;
       $scope.dropdown = false;
       $input.val(suggestion);
+      $scope.model = suggestion;
     };
   }
 
@@ -72,16 +84,17 @@ app.directive('autocomplete', function($compile, $timeout) {
     $element.keydown(function(e) {
       var key = { left: 37, up: 38, right: 39, down: 40 , enter: 13, tab: 9 },
           keycode = e.keyCode || e.which,
-          l = $element.find('li').length;
+          l = $element.find('li').length,
+          index;
 
       switch (keycode) {
         case key.up:
-          var index = $scope.selectedIndex;
+          index = $scope.selectedIndex;
           if (index <= 0 || index >= l) index = l;
           $scope.setIndex(index-1);
           break;
         case key.down:
-          var index = $scope.selectedIndex;
+          index = $scope.selectedIndex;
           if (index < 0 || index >= l-1) index = -1;
           $scope.setIndex(index+1);
           break;
