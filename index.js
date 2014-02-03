@@ -43,6 +43,7 @@ app.directive('autocomplete', function($compile, $timeout) {
     $input = $('<input ng-model="inputValue" type="'+$scope.type+'" ng-change="onChange()"/>');
     $input.attr(attrMap);
     $element
+    .removeAttr(Object.keys(attrMap).join(' '))
     .append($compile($input)($scope))
     .append($compile(ulTemplate)($scope));
   
