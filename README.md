@@ -21,13 +21,11 @@ var app = angular.module('app', ['ngAutocomplete']);
 
 ## Usage
 
-If you now want an autocomplete you can just use the tag `<autocomplete>` tag in your HTML. With the `data` parameter you can pass in an array that will be used for autocompletion. You need to pass there something which is available in the $scope of your controller. 
-
-You can also pass a function that receives changes with the `on-type` attribute. This is useful if you need to load external resources from a REST API, for example, you cna then upload the array you passed into `data` and it will automatically use the changed array.
+If you now want an autocomplete you can just use the tag `<autocomplete>` tag in your HTML. With the `data` parameter you can pass in an array on function that will be used for autocompletion. You need to pass there something which is available in the $scope of your controller. 
 
 ### Attributes
 
-`data` : Pass an array to the autocomplete directive. Should be accessible in the $scope of your controller.
+`data` : Pass an array or function that return an array to the autocomplete directive. Should be accessible in the $scope of your controller.
 
 ## Example
 
@@ -37,6 +35,7 @@ HTML:
       <autocomplete data="movies">
       	<input type="text" ng-model="myModel">
       </autocomplete>
+      <span>The model is still available in this scope: {{myModel}}</span>
     </div>
 ```
 
