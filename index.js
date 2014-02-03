@@ -19,9 +19,6 @@ app.directive('autocomplete', function($compile, $timeout) {
     replace: true,
     transclude: true,
     template: '<div class="autocomplete"></div>',
-    scope: {
-      suggestions: '=data'
-    },
     controller: ['$scope', '$element', '$transclude', controller], 
     link: link,
   };
@@ -63,13 +60,14 @@ app.directive('autocomplete', function($compile, $timeout) {
       $scope.dropdown = false;
       $input.val(suggestion);
     };
-
-    $scope.getSuggestions = function() {
-      return (typeof($scope.suggestions) === 'function') ? $scope.suggestions() : $scope.suggestions;
-    };
   }
 
-  function link($scope, $element) {
+  function link($scope, $element, $attrs) {
+
+    var suggestions = $scope[$attrs.data];
+    $scope.getSuggestions = function() {
+      return (typeof(suggestions) === 'function') ? suggestions() : suggestions;
+    };
 
     $element.keydown(function(e) {
       var key = { left: 37, up: 38, right: 39, down: 40 , enter: 13, tab: 9 },

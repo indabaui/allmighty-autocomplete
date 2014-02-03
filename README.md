@@ -5,34 +5,18 @@ Simple to use autocomplete directive in a module for AngularJS!
 Supports arrow keys to traverse suggestions as well as mouse input. 
 You can load the suggestions from a remote REST API, it also supports promises. 
 
-Checkout [the demo](http://justgoscha.github.io/allmighty-autocomplete/) to see what it does.
+Install:
 
-## Setup
-
-To use it you need jQuery and of course AngularJS, so make sure these are loaded first. I always like to use Google's CDN for that:
-
-```html
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
 ```
-
-Also you should load the stylesheet of the autocomplete:
-
-```html
-  <link rel="stylesheet" href="style/autocomplete.css">
-```
-
-Then in your HTML you should load it before the script of your main app. Like this:
-
-```html
-<script type="text/javascript" src="script/autocomplete.js"></script>
-<script type="text/javascript" src="script/app.js"></script>
+  component install indabaui/allmighty-autocomplete
 ```
 
 In your main script file you should add it as dependency:
 
 ```javascript
-var app = angular.module('app', ['autocomplete']);
+require("indabaui-allmighty-autocomplete")
+
+var app = angular.module('app', ['ngAutocomplete']);
 ```
 
 ## Usage
@@ -45,20 +29,20 @@ You can also pass a function that receives changes with the `on-type` attribute.
 
 `data` : Pass an array to the autocomplete directive. Should be accessible in the $scope of your controller.
 
-`on-type` : (optional) Pass a function that will receives changes, when somebody types something. It passes the full string for any character typed or deleted. You can use that for example to update the array that you passed in data.
-
 ## Example
 
 HTML: 
 ```html
     <div ng-controller="MyCtrl">  
-      <autocomplete data="movies" on-type="updateMovies"></autocomplete>
+      <autocomplete data="movies">
+      	<input type="text" ng-model="myModel">
+      </autocomplete>
     </div>
 ```
 
 JavaScript:
 ```javascript
-	var app = angular.module('app', ['autocomplete']);
+	var app = angular.module('app', ['ngAutocomplete']);
 
 	app.controller('MyCtrl', function($scope, MovieRetriever){
 		$scope.movies = ["Lord of the Rings",
@@ -66,15 +50,6 @@ JavaScript:
 		 				"Science of Sleep",
 		 				"Back to the Future",
 		 				"Oldboy"];
-
-		// gives another movie array on change
-		$scope.updateMovies = function(typed){
-			// MovieRetriever could be some service returning a promise
-		    $scope.newmovies = MovieRetriever.getmovies(typed);
-		    $scope.newmovies.then(function(data){
-		      $scope.movies = data;
-		    });
-		}
 	});
 
 ```
