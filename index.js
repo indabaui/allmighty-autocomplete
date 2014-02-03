@@ -73,6 +73,8 @@ app.directive('autocomplete', function($compile, $timeout) {
       $input.val(suggestion);
       $scope.model = suggestion;
     };
+
+    $scope.inputValue = $scope.model;
   }
 
   function link($scope, $element, $attrs) {
