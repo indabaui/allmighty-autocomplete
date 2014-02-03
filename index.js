@@ -76,9 +76,8 @@ app.directive('autocomplete', function($compile, $timeout) {
 
   function link($scope, $element, $attrs) {
 
-    var suggestions = $scope[$attrs.data];
     $scope.getSuggestions = function() {
-      return (typeof(suggestions) === 'function') ? suggestions() : suggestions;
+      return (typeof($scope.data) === 'function') ? $scope.data() : $scope.data;
     };
 
     $element.keydown(function(e) {
