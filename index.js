@@ -4,7 +4,7 @@ app.directive('autocomplete', function($compile, $timeout) {
   var index = -1, 
       $input,
       ulTemplate = '<ul class="autocomplete-dropdown" ng-show="dropdown">' +
-                    '<li class="suggestion" ng-repeat="suggestion in suggestions | filter:searchFilter" '+
+                    '<li class="suggestion" ng-repeat="suggestion in getSuggestions() | filter:searchFilter" '+
                       'index="{{$index}}"' + 
                       'ng-class="{active:($index == selectedIndex)}"'+
                       'ng-click="select(suggestion)"'+
@@ -62,6 +62,10 @@ app.directive('autocomplete', function($compile, $timeout) {
       $scope.searchFilter = suggestion;
       $scope.dropdown = false;
       $input.val(suggestion);
+    };
+
+    $scope.getSuggestions = function() {
+      return (typeof($scope.suggestions) === 'function') ? $scope.suggestions() : $scope.suggestions;
     };
   }
 
