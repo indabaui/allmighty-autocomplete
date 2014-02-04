@@ -115,7 +115,7 @@ app.directive('autocomplete', function($compile, $timeout) {
           return;
       }
 
-      if (isInRange($scope.selectedIndex, l) || keycode == key.enter) e.preventDefault();
+      if (isInRange($scope.selectedIndex, l) && keycode == key.enter) e.preventDefault();
     });
 
     function isInRange(index, length) {
