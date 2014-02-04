@@ -43,6 +43,7 @@ app.directive('autocomplete', function($compile, $timeout) {
     $input.attr(attrMap);
     $element
     .removeAttr(Object.keys(attrMap).join(' '))
+    .addClass('autocomplete-wrapper')
     .append($compile($input)($scope))
     .append($compile(ulTemplate)($scope));
   
