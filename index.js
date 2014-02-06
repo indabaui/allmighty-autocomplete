@@ -2,7 +2,7 @@ var app = angular.module('ngAutocomplete', []);
 
 app.directive('autocomplete', function($compile, $timeout) {
   var index = -1,
-      ulTemplate = '<ul class="autocomplete-dropdown" ng-show="dropdown">' +
+      ulTemplate = '<ul class="autocomplete-dropdown" ng-show="dropdown" ng-if="(suggestion in getSuggestions() | filter:searchFilter).length">' +
                     '<li class="suggestion" ng-repeat="suggestion in getSuggestions() | filter:searchFilter" '+
                       'index="{{$index}}"' + 
                       'ng-class="{active:($index == selectedIndex)}"'+
@@ -86,7 +86,7 @@ app.directive('autocomplete', function($compile, $timeout) {
     };
 
     $element.keydown(function(e) {
-      var key = { left: 37, up: 38, down: 40 , enter: 13, tab: 9, esc: 27 },
+      var key = { left: 37, up: 38, down: 40 , enter: 13, esc: 27 },
           keycode = e.keyCode || e.which,
           l = $element.find('li').length,
           index;
@@ -104,7 +104,6 @@ app.directive('autocomplete', function($compile, $timeout) {
           break;
         case key.left:
           break;
-        case key.tab:
         case key.enter:  
           index = $scope.selectedIndex;
           if(isInRange(index, l)) $scope.select(valueAt(index));
