@@ -110,8 +110,10 @@ app.directive('autocomplete', function($compile, $timeout) {
           if(isInRange(index, l)) $scope.select(valueAt(index));
           $scope.setIndex(-1);
           break;
-        case key.esc: 
-          $scope.dropdown = false;
+        case key.esc:
+          $scope.$apply(function() {
+            $scope.dropdown = false;
+          });
           break;
         default:
           return;
