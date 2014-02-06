@@ -86,7 +86,7 @@ app.directive('autocomplete', function($compile, $timeout) {
     };
 
     $element.keydown(function(e) {
-      var key = { left: 37, up: 38, down: 40 , enter: 13, tab: 9 },
+      var key = { left: 37, up: 38, down: 40 , enter: 13, tab: 9, esc: 27 },
           keycode = e.keyCode || e.which,
           l = $element.find('li').length,
           index;
@@ -109,6 +109,9 @@ app.directive('autocomplete', function($compile, $timeout) {
           index = $scope.selectedIndex;
           if(isInRange(index, l)) $scope.select(valueAt(index));
           $scope.setIndex(-1);
+          break;
+        case key.esc
+          $scope.dropdown = false;
           break;
         default:
           return;
