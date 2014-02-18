@@ -86,7 +86,7 @@ app.directive('autocomplete', function($compile, $timeout) {
     };
 
     $element.keydown(function(e) {
-      var key = { left: 37, up: 38, down: 40 , enter: 13, esc: 27 },
+      var key = { left: 37, up: 38, down: 40 , enter: 13, esc: 27, tab: 9 },
           keycode = e.keyCode || e.which,
           l = $element.find('li').length,
           index;
@@ -104,18 +104,24 @@ app.directive('autocomplete', function($compile, $timeout) {
           break;
         case key.left:
           break;
-        case key.enter:  
+        case key.enter:
           index = $scope.selectedIndex;
           if(isInRange(index, l)) $scope.select(valueAt(index));
           $scope.setIndex(-1);
+          hideDropdown();
           break;
         case key.esc:
-          $scope.$apply(function() {
-            $scope.dropdown = false;
-          });
+        case key.tab:
+          hideDropdown();
           break;
         default:
           return;
+      }
+
+      function hideDropdown() {
+        $scope.$apply(function() {
+          $scope.dropdown = false;
+        });
       }
 
       if (isInRange($scope.selectedIndex, l) && keycode == key.enter) e.preventDefault();
