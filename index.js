@@ -22,7 +22,8 @@ app.directive('autocomplete', function($compile, $timeout) {
     scope: {
         model: '=',
         data: '=',
-        type: '@'
+        type: '@',
+        onselect: '&',
     },
     link: link,
   };
@@ -72,6 +73,8 @@ app.directive('autocomplete', function($compile, $timeout) {
       $scope.dropdown = false;
       $input.val(suggestion);
       $scope.model = suggestion;
+      var selectCallback = $scope.onselect();
+      if (selectCallback && typeof(selectCallback) === 'function') selectCallback();
     };
 
     $scope.$watch('model', function() {
