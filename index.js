@@ -53,7 +53,7 @@ app.directive('autocomplete', function($compile, $timeout) {
       $scope.searchFilter = $scope.inputValue;
       $scope.selectedIndex = 0;
       $scope.dropdown = ($scope.searchFilter === undefined || $scope.searchFilter === "") ? false : true;
-      var changeCallback = $scope.onselect();
+      if ($scope.onchange) var changeCallback = $scope.onchange();
       if (changeCallback && typeof(changeCallback) === 'function') changeCallback();
     };
       
