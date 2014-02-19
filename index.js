@@ -23,7 +23,7 @@ app.directive('autocomplete', function($compile, $timeout) {
         model: '=',
         data: '=',
         type: '@',
-        onchange: '&',
+        changeCallback: '&',
     },
     link: link,
   };
@@ -31,6 +31,7 @@ app.directive('autocomplete', function($compile, $timeout) {
   function controller($scope, $element) {
     $scope.dropdown = false;
     $scope.selectedIndex = -1;
+    if ($scope.changeCallback) var changeCallback = $scope.changeCallback();
     
     var attributes = $element[0].attributes, attrMap = {}, name;
       
@@ -53,7 +54,6 @@ app.directive('autocomplete', function($compile, $timeout) {
       $scope.searchFilter = $scope.inputValue;
       $scope.selectedIndex = 0;
       $scope.dropdown = ($scope.searchFilter === undefined || $scope.searchFilter === "") ? false : true;
-      if ($scope.onchange) var changeCallback = $scope.onchange();
       if (changeCallback && typeof(changeCallback) === 'function') changeCallback();
     };
       
